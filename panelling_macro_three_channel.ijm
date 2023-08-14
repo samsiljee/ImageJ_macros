@@ -1,3 +1,6 @@
+//Set output directory
+output = getDirectory("Select a Results Directory");
+
 //Create duplicate to run macro on
 run("Duplicate...", "title=Duplicate duplicate");
 
@@ -31,9 +34,9 @@ selectWindow("Composite");
 run("Scale Bar...", "width=100 thickness=20 font=50 color=White background=None location=[Lower Right] horizontal bold overlay");
 
 //Save and reopen as png for single layer
-saveAs("PNG", "C:/Users/sam.siljee/OneDrive - GMRI/Documents/Techniques/IF/ImageJ Macros/temp/4_Composite.png");
+saveAs("PNG", output+"4_Composite.png");
 close();
-open("C:/Users/sam.siljee/OneDrive - GMRI/Documents/Techniques/IF/ImageJ Macros/temp/4_Composite.png");
+open(output+"4_Composite.png");
 
 //set split images back to gray LUT
 selectWindow("Duplicate-0001");
@@ -45,16 +48,16 @@ run("Grays");
 
 //Save other channels for for use in FigureJ
 selectWindow("Duplicate-0001");
-saveAs("BMP", "C:/Users/sam.siljee/OneDrive - GMRI/Documents/Techniques/IF/ImageJ Macros/temp/1_Blue.bmp");
+saveAs("BMP", output+"1_Blue.bmp");
 selectWindow("Duplicate-0002");
-saveAs("BMP", "C:/Users/sam.siljee/OneDrive - GMRI/Documents/Techniques/IF/ImageJ Macros/temp/2_Green.bmp");
+saveAs("BMP", output+"2_Green.bmp");
 selectWindow("Duplicate-0003");
-saveAs("BMP", "C:/Users/sam.siljee/OneDrive - GMRI/Documents/Techniques/IF/ImageJ Macros/temp/3_Red.bmp");
+saveAs("BMP", output+"3_Red.bmp");
 
 //combine as montage and save
 run("Images to Stack", "use");
 run("Make Montage...", "columns=2 rows=2 scale=1");
-saveAs("BMP", "C:/Users/sam.siljee/OneDrive - GMRI/Documents/Techniques/IF/ImageJ Macros/temp/Montage.bmp");
+saveAs("BMP", output+"Montage.bmp");
 //Close windows
 selectWindow("Stack");
 close();
