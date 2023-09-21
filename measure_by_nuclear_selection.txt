@@ -1,0 +1,41 @@
+# Method to measure average across all nuclei
+
+1. Open image
+2. Image -> Duplicate (Ctrl+Shift+D)
+3. Image -> Color -> Split Channels
+4. Select DAPI channel
+5. Image -> Adjust -> Threshold (Ctrl+Shift+T)
+6. Set bottom slider to maximum, and top slider to a point where all nuclei are red
+7. Click apply
+8. Process -> Binary -> Watershed
+9. Process -> Binary -> Fill Holes
+10. Edit -> Selection -> Create selection
+11. File -> Save As -> Selecion...
+12. Save as a .roi file
+13. Select channel of interest
+14. File -> Open... (Ctrl+O)
+15. Open .roi just created
+16. Analyze -> Set Measurements...
+17. Make sure "Limit to threshold" is selected, and desired measurements
+18. Analyze -> Measure (Ctrl+M)
+19. Save the results from the Results window
+20. Repeat as needed for the other channels
+
+# Method to measure nucleus by nucleus
+1. Open image
+2. Image -> Duplicate (Ctrl+Shift+D)
+3. Image -> Color -> Split Channels
+4. Select DAPI channel
+5. Image -> Adjust -> Threshold (Ctrl+Shift+T)
+6. Set bottom slider to maximum, and top slider to a point where all nuclei are red
+7. Click apply
+8. Analyze -> Analyze Particles
+9. Set minimum size to desired size, make sure "Add to manager" is selected
+10. Click Ok
+11. The ROI Manager will automatically open
+12. Analyze -> Set Measurements...
+13. Make sure the desired measurements are selected
+14. Select the window of the channel you wish to measure
+15. Click "Measure" in the ROI Manager
+16. Save the results from the Results window
+17. Repeat as needed for the other channels
