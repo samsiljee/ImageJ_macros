@@ -1,19 +1,54 @@
-run("Duplicate...", "duplicate");
+//Set output directory
+output = getDirectory("Select a results directory");
+
+//Create duplicate to run macro on
+run("Duplicate...", "title=Duplicate duplicate");
+
+// Split the channels
 run("Split Channels");
-selectImage("C1-HEK293 non-transduced control DAPI eGFP p53 20x-1.oib");
-setAutoThreshold("Default no-reset");
+
+// Select the DAPI channel
+selectWindow("C1-Duplicate");
+
+// Run threshold
+setAutoThreshold("Default dark no-reset");
 //run("Threshold...");
 setOption("BlackBackground", true);
+
+// Use DAPI threshold to make mask
 run("Convert to Mask");
-run("Fill Holes");
-run("Close");
-run("Undo");
+
+// Tidy up the mask
 run("Watershed");
 run("Fill Holes");
-run("Create Selection");
-saveAs("Selection", "C:/Users/sam.siljee/OneDrive - GMRI/Pictures/Immunofluorescence/p53 validation ICC 2/non-transduced control.roi");
-close();
-selectImage("C2-HEK293 non-transduced control DAPI eGFP p53 20x-1.oib");
-open("C:/Users/sam.siljee/OneDrive - GMRI/Pictures/Immunofluorescence/p53 validation ICC 2/non-transduced control.roi");
+
+// Create ROIs
+run("Analyze Particles...", "size=10-Infinity pixel exclude clear add");
+
+// Select channel two
+selectWindow("C2-Duplicate");
+
+// Set measurements to aquire and measure
 run("Set Measurements...", "area mean integrated limit redirect=None decimal=3");
-run("Measure");
+roiManager("Measure");
+
+// Save results
+selectWindow("Results");
+saveAs("Results", output+"channel_2_results.csv");
+
+// Repeat for channel 3
+run("Clear Results");
+selectWindow("C3-Duplicate");
+roiManager("Measure");
+selectWindow("Results");
+saveAs("Results", output+"channel_3_results.csv");
+
+// Close all new windows
+selectImage("C1-Duplicate");
+close();
+selectImage("C2-Duplicate");
+close();
+selectImage("C3-Duplicate");
+close();
+close("ROI Manager");
+close("Results");
