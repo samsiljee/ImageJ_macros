@@ -5,6 +5,10 @@
  * Feel free to use and edit under the MIT licensce
  */
 
+
+
+
+
 //User input
 #@ File (label = "Input directory", style = "directory") input
 #@ File (label = "Output directory", style = "directory") output
@@ -16,8 +20,8 @@
 #@ Boolean (label = "Include scale bar", value = true) show_scale
 #@ Boolean (label = "Use grays LUT on split channels", value = true) white_split
 
-// See also Process_Folder.py for a version of this code
-// in the Python scripting language.
+// Close windows
+run("Close All");
 
 processFolder(input);
 
