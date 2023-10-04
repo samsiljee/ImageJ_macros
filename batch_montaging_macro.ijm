@@ -2,7 +2,7 @@
  * Macro to batch process two or three channel fluorescence images
  * Written by Sam Siljee
  * Created 4/10/2023
- * Feel free to use under the MIT licensce
+ * Feel free to use and edit under the MIT licensce
  */
 
 //User input
@@ -35,9 +35,11 @@ function processFolder(input) {
 
 function processFile(input, output, file) {
 	
-	// Open the image file
-    path = input + file;  
-	run("Bio-Formats Importer", "open=path open_all_series windowless=true");
+	// Construct the full file path
+	var filePath = input + File.separator + file;
+
+	// Open the image file using Bio-Formats Importer
+	run("Bio-Formats Importer", "open=[" + filePath + "] windowless=true");
     
 	// Check number of channels
 	nChannels = nSlices;
@@ -142,14 +144,8 @@ function processFile(input, output, file) {
 	}
 
 	// Save montage
-	saveAs("BMP", output+name+" montage.bmp");
+	saveAs("BMP", output+"/"+name+" montage.bmp");
 
 	// Close windows
-	close("Stack");
-	close(name+" montage.bmp");
-	close("Log");
-	
-	// Leave the print statements until things work, then remove them.
-	print("Processing: " + input + File.separator + file);
-	print("Saving to: " + output);
+	run("Close All");
 }
