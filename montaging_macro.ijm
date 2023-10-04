@@ -116,7 +116,7 @@ if (nChannels == 3) {
 
 // Add scale bar
 if (show_scale) {
-	run("Scale Bar...", "width=100 thickness=20 font=50 color=White background=None location=[Lower Right] horizontal bold overlay");
+	run("Scale Bar...", "width=100 thickness=20 font=50 color=White background=None location=[Lower Right] horizontal bold burn");
 }
 
 // Save montage
@@ -125,5 +125,4 @@ saveAs("BMP", output+name+" montage.bmp");
 // Close windows
 close("Stack");
 close(name+" montage.bmp");
-close("Composite");
 close("Log");
