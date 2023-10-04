@@ -5,9 +5,9 @@
  * Feel free to use and edit under the MIT licensce
  */
 
-
-
-
+if (nImages > 0) {
+	print("Please close and save all open images before running this macro.");
+} else {
 
 //User input
 #@ File (label = "Input directory", style = "directory") input
