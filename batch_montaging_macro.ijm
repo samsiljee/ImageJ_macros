@@ -153,3 +153,5 @@ function processFile(input, output, file) {
 	// Close windows
 	run("Close All");
 }
+
+}
