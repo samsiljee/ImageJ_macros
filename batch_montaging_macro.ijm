@@ -7,7 +7,7 @@
 
 if (nImages > 0) {
 
-	print("Please close and save all open images before running this macro.");
+	print("Please save and close all open images before running this macro.");
 	
 } else {
 
