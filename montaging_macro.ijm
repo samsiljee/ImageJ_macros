@@ -5,7 +5,7 @@ output = getDirectory("Select a results directory");
 nChannels = nSlices;
 
 // Dialog box for user input
-Dialog.create("Panelling options");
+Dialog.create("Montaging options");
 Dialog.addCheckbox("Include DAPI in merge", true);
 Dialog.addNumber("DAPI channel", 1);
 Dialog.addCheckbox("Auto brightness/contrast DAPI channel", true);
@@ -14,6 +14,7 @@ Dialog.addCheckbox("Include scale bar", true);
 Dialog.addCheckbox("White LUT on split channels", true);
 Dialog.show();
 
+// Get user input
 DAPI_in_merge = Dialog.getCheckbox();
 DAPI_channel = Dialog.getNumber();
 BC_channel_1 = Dialog.getCheckbox();

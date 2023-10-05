@@ -6,19 +6,36 @@
  */
 
 if (nImages > 0) {
+
 	print("Please close and save all open images before running this macro.");
+	
 } else {
 
-//User input
-#@ File (label = "Input directory", style = "directory") input
-#@ File (label = "Output directory", style = "directory") output
-#@ String (label = "File suffix", value = ".oib") suffix
-#@ Boolean (label = "Include DAPI in merge", value = true) DAPI_in_merge
-#@ String (label = "DAPI channel", style = "number", value = 1) DAPI_channel
-#@ Boolean (label = "Auto brightness/contrast DAPI channel", value = true) BC_DAPI_channel
-#@ Boolean (label = "Auto brightness/contrast all channels", value = false) BC_other_channels
-#@ Boolean (label = "Include scale bar", value = true) show_scale
-#@ Boolean (label = "Use grays LUT on split channels", value = true) white_split
+// Set input directory
+input = getDirectory("Select an input directory");
+
+// Set output directory
+output = getDirectory("Select a results directory");
+
+// Dialog box for user input
+Dialog.create("Montaging options");
+Dialog.addString("File suffix", ".oib");
+Dialog.addCheckbox("Include DAPI in merge", true);
+Dialog.addNumber("DAPI channel", 1);
+Dialog.addCheckbox("Auto brightness/contrast DAPI channel", true);
+Dialog.addCheckbox("Auto brightness/contrast all channels", false);
+Dialog.addCheckbox("Include scale bar", true);
+Dialog.addCheckbox("Use grays LUT on split channels", true);
+Dialog.show();
+
+// Get user input
+suffix = Dialog.getString();
+DAPI_in_merge = Dialog.getCheckbox();
+DAPI_channel = Dialog.getNumber();
+BC_DAPI_channel = Dialog.getCheckbox();
+BC_other_channels = Dialog.getCheckbox();
+show_scale = Dialog.getCheckbox();
+white_split = Dialog.getCheckbox();
 
 // Close windows
 run("Close All");
