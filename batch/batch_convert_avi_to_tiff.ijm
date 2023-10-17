@@ -18,17 +18,8 @@ input = getDirectory("Select an input directory");
 // Set output directory
 output = getDirectory("Select a results directory");
 
-// Dialog box for user input - on start up
-Dialog.create("Montaging options");
-Dialog.addString("File suffix", ".oib");
-Dialog.addCheckbox("Checkbox input", true);
-Dialog.addNumber("numeric input", 1);
-Dialog.show();
-
-// Get user input
-suffix = Dialog.getString();
-checkbox_input = Dialog.getCheckbox();
-numeric_input = Dialog.getNumber();
+// Only open .avi files
+suffix = ".avi";
 
 // Close windows
 run("Close All");
@@ -52,32 +43,14 @@ function processFile(input, output, file) {
 	// Construct the full file path
 	var filePath = input + File.separator + file;
 
-	// Open the image file using Bio-Formats Importer
-	run("Bio-Formats Importer", "open=[" + filePath + "] windowless=true");
-    
-	// Check number of channels
-	nChannels = nSlices;
-
+	// Open the avi file
+	open(filePath);
+		
 	// Get image name
-	var name_with_extension = getTitle();
-
-	// Get name without extension
-	var name = name_with_extension.substring(0, name_with_extension.lastIndexOf('.'));
-
-	// Create duplicate to run the macro on
-	run("Duplicate...", "title=Duplicate duplicate");
-
-
-	/*
-	/ Insert the block of the marco code to be perfomred on the image here
-	/ Variables can be accessed from the startup dialogue box
-	/ Dialog boxes can also be opened to ask for variables on an image by image basis
-	/ There are plenty of helpful forums to learn more about the ImageJ macro language
-	/*
-
-
-	// Save
-	saveAs("BMP", output+"/"+name+" edited.bmp");
+	name = getTitle();
+	
+	// Save as TIFF
+	saveAs("TIFF", output + File.separator + name + ".tiff");
 
 	// Close windows
 	run("Close All");
