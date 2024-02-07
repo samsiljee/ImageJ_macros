@@ -1,5 +1,5 @@
 /*
- * Macro to batch process two or three channel fluorescence images
+ * Macro to batch process two, three, or four channel fluorescence images
  * Written by Sam Siljee
  * Created 4/10/2023
  * Feel free to use and edit under the MIT licensce
@@ -89,6 +89,16 @@ function processFile(input, output, file) {
 		selectWindow("Duplicate-0003");
 		run("Red");
 	}
+	
+	// Colours for four channels
+	if (nChannels == 4) {
+	selectWindow("Duplicate-0002");
+	run("Green");
+	selectWindow("Duplicate-0003");
+	run("Red");
+	selectWindow("Duplicate-0004");
+	run("Grays");
+	}
 
 	// Adjust brightness and contrast
 	if (BC_other_channels) {
@@ -105,6 +115,17 @@ function processFile(input, output, file) {
 			run("Enhance Contrast", "saturated=0.35");
 			run("Apply LUT");
 		}
+		
+		if (nChannels == 4) {
+			selectWindow("Duplicate-0003");
+			run("Enhance Contrast", "saturated=0.35");
+			run("Apply LUT");
+			
+			selectWindow("Duplicate-0004");
+			run("Enhance Contrast", "saturated=0.35");
+			run("Apply LUT");
+		}
+		
 	} else {
 		if (BC_DAPI_channel) {
 		   selectWindow("Duplicate-000"+DAPI_channel);
@@ -130,6 +151,15 @@ function processFile(input, output, file) {
 			run("Merge Channels...", "c2=Duplicate-0002 c3=Duplicate-0003 create keep");
 		}
 	}
+	
+	// Make composite for four channels
+	if (nChannels == 4) {
+		if (DAPI_in_merge) {
+			run("Merge Channels...", "c1=Duplicate-0001 c2=Duplicate-0002 c3=Duplicate-0003 c4=Duplicate-0004 create keep");
+		} else {
+			run("Merge Channels...", "c2=Duplicate-0002 c3=Duplicate-0003 c4=Duplicate-0004 create keep");
+		}
+	}
 
 	selectWindow("Composite");
 
@@ -146,6 +176,12 @@ function processFile(input, output, file) {
 			selectWindow("Duplicate-0003");
 			run("Grays");
 		}
+		if (nChannels == 4) {
+			selectWindow("Duplicate-0003");
+			run("Grays");
+			selectWindow("Duplicate-0004");
+			run("Grays");
+		}
 	}
 
 	close("Composite");
@@ -157,6 +193,9 @@ function processFile(input, output, file) {
 	}
 	if (nChannels == 3) {
 		run("Make Montage...", "columns=2 rows=2 scale=1");
+	}
+	if (nChannels == 4) {
+		run("Make Montage...", "columns=3 rows=2 scale=1");
 	}
 
 	// Add scale bar
