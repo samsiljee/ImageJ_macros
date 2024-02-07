@@ -110,17 +110,13 @@ function processFile(input, output, file) {
 		run("Enhance Contrast", "saturated=0.35");
 		run("Apply LUT");
 	
-		if (nChannels == 3) {
+		if (nChannels > 2) {
 			selectWindow("Duplicate-0003");
 			run("Enhance Contrast", "saturated=0.35");
 			run("Apply LUT");
 		}
 		
-		if (nChannels == 4) {
-			selectWindow("Duplicate-0003");
-			run("Enhance Contrast", "saturated=0.35");
-			run("Apply LUT");
-			
+		if (nChannels > 3) {
 			selectWindow("Duplicate-0004");
 			run("Enhance Contrast", "saturated=0.35");
 			run("Apply LUT");
@@ -172,13 +168,11 @@ function processFile(input, output, file) {
 		run("Grays");
 		selectWindow("Duplicate-0002");
 		run("Grays");
-		if (nChannels == 3) {
+		if (nChannels > 2) {
 			selectWindow("Duplicate-0003");
 			run("Grays");
 		}
-		if (nChannels == 4) {
-			selectWindow("Duplicate-0003");
-			run("Grays");
+		if (nChannels > 3) {
 			selectWindow("Duplicate-0004");
 			run("Grays");
 		}
