@@ -20,9 +20,9 @@ output = getDirectory("Select a results directory");
 // Dialog box for user input
 Dialog.create("Montaging options");
 Dialog.addString("File suffix", ".oib");
-Dialog.addCheckbox("Include DAPI in merge", true);
-Dialog.addNumber("DAPI channel", 1);
-Dialog.addCheckbox("Auto brightness/contrast DAPI channel", true);
+Dialog.addCheckbox("Rearrange channels", false);
+Dialog.addCheckbox("Include first channel in merge", true);
+Dialog.addCheckbox("Auto brightness/contrast first channel", true);
 Dialog.addCheckbox("Auto brightness/contrast all channels", false);
 Dialog.addCheckbox("Include scale bar", true);
 Dialog.addCheckbox("Use grays LUT on split channels", true);
@@ -30,12 +30,23 @@ Dialog.show();
 
 // Get user input
 suffix = Dialog.getString();
+rearrange_channels = Dialog.getCheckbox();
 DAPI_in_merge = Dialog.getCheckbox();
-DAPI_channel = Dialog.getNumber();
 BC_DAPI_channel = Dialog.getCheckbox();
 BC_other_channels = Dialog.getCheckbox();
 show_scale = Dialog.getCheckbox();
 white_split = Dialog.getCheckbox();
+
+// Get user input to rearrange the channels
+	if (rearrange_channels) {
+		// Dialog box for channel rearrangement
+		Dialog.create("New channel order");
+		Dialog.addString("New order", "132");
+		Dialog.show();
+
+		// Get channel rearrangement input
+		channel_order = Dialog.getString();
+	}
 
 // Close windows
 run("Close All");
@@ -70,6 +81,11 @@ function processFile(input, output, file) {
 
 	// Create duplicate to run the macro on
 	run("Duplicate...", "title=Duplicate duplicate");
+	
+	// Rearrange the channels
+	if (rearrange_channels) {
+		run("Arrange Channels...", "new="+channel_order);
+	}
 
 	//Split stack and change DAPI to blue
 	run("Stack to Images");
@@ -124,7 +140,7 @@ function processFile(input, output, file) {
 		
 	} else {
 		if (BC_DAPI_channel) {
-		   selectWindow("Duplicate-000"+DAPI_channel);
+		   selectWindow("Duplicate-0001");
 		   run("Enhance Contrast", "saturated=0.35");
  		   run("Apply LUT");
 		}
