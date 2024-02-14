@@ -22,6 +22,7 @@ Dialog.create("Montaging options");
 Dialog.addString("File suffix", ".oib");
 Dialog.addCheckbox("Rearrange channels", false);
 Dialog.addCheckbox("Include first channel in merge", true);
+Dialog.addCheckbox("Set min and max values manually", false);
 Dialog.addCheckbox("Auto brightness/contrast first channel", true);
 Dialog.addCheckbox("Auto brightness/contrast all channels", false);
 Dialog.addCheckbox("Include scale bar", true);
@@ -32,21 +33,29 @@ Dialog.show();
 suffix = Dialog.getString();
 rearrange_channels = Dialog.getCheckbox();
 DAPI_in_merge = Dialog.getCheckbox();
+BC_manual = Dialog.getCheckbox();
 BC_DAPI_channel = Dialog.getCheckbox();
 BC_other_channels = Dialog.getCheckbox();
 show_scale = Dialog.getCheckbox();
 white_split = Dialog.getCheckbox();
 
 // Get user input to rearrange the channels
-	if (rearrange_channels) {
-		// Dialog box for channel rearrangement
-		Dialog.create("New channel order");
-		Dialog.addString("New order", "132");
-		Dialog.show();
-
+if (rearrange_channels) {
+	// Dialog box for channel rearrangement
+	Dialog.create("New channel order");
+	Dialog.addString("New order", "132");
+	Dialog.show();
 		// Get channel rearrangement input
-		channel_order = Dialog.getString();
-	}
+	channel_order = Dialog.getString();
+}
+
+// Get user input to set min and max points for brightness and contrast
+if (BC_manual) {
+	// Open sample image
+
+	// Get min and max values
+}
+
 
 // Close windows
 run("Close All");
