@@ -47,6 +47,16 @@ selectWindow("Duplicate-0003");
 run("Red");
 }
 
+// Colours for four channels
+if (nChannels == 4) {
+	selectWindow("Duplicate-0002");
+run("Green");
+selectWindow("Duplicate-0003");
+run("Red");
+selectWindow("Duplicate-0004");
+run("Grays");
+}
+
 // Adjust brightness and contrast
 if (BC_other_channels) {
 	selectWindow("Duplicate-0001");
@@ -57,11 +67,18 @@ if (BC_other_channels) {
 	run("Enhance Contrast", "saturated=0.35");
 	run("Apply LUT");
 	
-	if (nChannels == 3) {
+	if (nChannels > 2) {
 		selectWindow("Duplicate-0003");
 		run("Enhance Contrast", "saturated=0.35");
 		run("Apply LUT");
 	}
+	
+	if (nChannels > 3) {
+		selectWindow("Duplicate-0004");
+		run("Enhance Contrast", "saturated=0.35");
+		run("Apply LUT");
+	}
+	
 } else {
 	if (BC_channel_1) {
     selectWindow("Duplicate-000"+DAPI_channel);
@@ -88,6 +105,15 @@ if (nChannels == 3) {
 	}
 }
 
+// Make composite for four channels
+if (nChannels == 4) {
+	if (DAPI_in_merge) {
+		run("Merge Channels...", "c1=Duplicate-0001 c2=Duplicate-0002 c3=Duplicate-0003 c4=Duplicate-0004 create keep");
+	} else {
+		run("Merge Channels...", "c2=Duplicate-0002 c3=Duplicate-0003 c4=Duplicate-0004 create keep");
+	}
+}
+
 selectWindow("Composite");
 run("RGB Color");
 selectWindow("Composite (RGB)");
@@ -98,8 +124,12 @@ if (white_split) {
 	run("Grays");
 	selectWindow("Duplicate-0002");
 	run("Grays");
-	if (nChannels == 3) {
+	if (nChannels > 2) {
 		selectWindow("Duplicate-0003");
+		run("Grays");
+	}
+	if (nChannels > 3) {
+		selectWindow("Duplicate-0004");
 		run("Grays");
 	}
 }
@@ -113,6 +143,9 @@ if (nChannels == 2) {
 }
 if (nChannels == 3) {
 	run("Make Montage...", "columns=2 rows=2 scale=1");
+}
+if (nChannels == 4) {
+	run("Make Montage...", "columns=3 rows=2 scale=1");
 }
 
 // Add scale bar
