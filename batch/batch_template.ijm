@@ -11,6 +11,8 @@ if (nImages > 0) {
 	print("Please save and close all open images before running this macro.");
 	
 } else {
+// Activate batch process mode - Images won't be opened graphically, up to 20x speed improvement
+setBatchMode(true);
 
 // Set input directory
 input = getDirectory("Select an input directory");
