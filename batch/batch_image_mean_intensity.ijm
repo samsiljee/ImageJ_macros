@@ -29,9 +29,9 @@ if (nImages > 0) {
 
     // Set parameters to be measured
     run("Set Measurements...", "mean redirect=None decimal=0");
-
-    // Initialize an array to store results
-    results = newArray();
+	
+	// Prevent images from opening while macro is running - up to 20x speed improvement
+	setBatchMode(true);
 
     processFolder(input);
 
@@ -54,44 +54,16 @@ if (nImages > 0) {
         // Open the image file using Bio-Formats Importer
         open(filePath);
 
-        // Get image name
-        var image_name = getTitle();
-
         // Measure mean whole image intensity
         run("Measure");
 
-        // Get the mean intensity value from the Results table
-        selectWindow("Results");
-        var mean_intensity = getResult("Mean", nResults-1);
-
-        // Store the result in the results array
-        results = Array.concat(results, newArray(file, mean_intensity));
-
-        // Clear results for the next measurement
-        run("Clear Results");
+        // Print the current file name to log
+		print(getTitle());
 
         // Close the image
         close();
     }
 
-    // Create the output file
-    outputFile = File.open(output + "mean_intensity_results.csv", "w");
-
-    // Write header
-    File.write(outputFile, "File Name,Mean Intensity\n");
-
-    // Write results
-    for (i = 0; i < results.length; i += 2) {
-        File.write(outputFile, results[i] + "," + results[i+1] + "\n");
-    }
-
-    // Close the output file
-    File.close(outputFile);
-
-    // Clear results window
-    run("Clear Results");
-
     // Close all remaining windows
     run("Close All");
-    print("Done!");
 }
