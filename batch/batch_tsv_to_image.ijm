@@ -1,7 +1,7 @@
 /*
- * ImageJ macro template for batch processing by folder
+ * ImageJ macro to convert numerical data int he form of .tsv files to images
  * Written by Sam Siljee
- * Created 12/10/2023
+ * Created 16/04/2025
  * Feel free to use and edit under the MIT licensce
  */
 
@@ -22,7 +22,7 @@ output = getDirectory("Select a results directory");
 
 // Dialog box for user input - on start up
 Dialog.create("Options");
-Dialog.addString("File suffix", ".csv");
+Dialog.addString("File suffix", ".tsv");
 Dialog.show();
 
 // Get user input
@@ -50,7 +50,7 @@ function processFile(input, output, file) {
 	// Construct the full file path
 	var filePath = input + File.separator + file;
     
-	// Open the .csv file as an image
+	// Open the .tsv file as an image
 	run("Text Image... ", "open=[" + filePath + "] windowless=true");
 
 	// Get image name
